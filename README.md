@@ -1,9 +1,9 @@
 # drone-navigation-super-pixels
 ##  Requirements
-..*CUDA 10.0 (Important to be 10.0 not 10.1 or greater).
+..* CUDA 10.0 (Important to be 10.0 not 10.1 or greater).
 
-..*ZED developer toolkit.
-  
+..* ZED developer toolkit.
+
 https://www.stereolabs.com/developers/release/#sdkdownloads_anchor
 
 This ROS package contains all the process of getting stereo-vision data. This is processed by a super-pixel algorithm to create plane-based maps.
