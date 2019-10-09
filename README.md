@@ -1,5 +1,5 @@
 # drone-navigation-super-pixels
-This ROS package contains all the process of getting stereo-vision data. This is processed by a super-pixel algorith to create plane-based maps.
+This ROS package contains all the process of getting stereo-vision data. This is processed by a super-pixel algorithm to create plane-based maps.
 
 
 The super-pixels' algorithm was developed by C. Yuheng, V. Prisacariu, and I. Reid. [1]
