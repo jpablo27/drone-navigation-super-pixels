@@ -23,6 +23,18 @@ https://www.stereolabs.com/developers/release/#sdkdownloads_anchor
 
 ## Instructions
 
+TODO
+
+```console
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/jpablo27/drone-navigation-super-pixels.git
+$ cd ..
+$ catkin_make #Wait until it compiles
+```
+Note: You might have to install other dependecies such as pcl-msgs, ros-pcl etc. To install them, just run:
+```console
+$ sudo apt-get install ros-melodic-<missing package name>
+```
 ## REFERENCES
 
 [1] C. Yuheng, V. Prisacariu, and I. Reid.  "gSLICr: SLIC superpixels at over 250Hz", ArXiv e-prints. 1509.04232 2015 sep
