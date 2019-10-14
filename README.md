@@ -1,4 +1,4 @@
-# drone-navigation-super-pixels
+# Drone-Navigation Using super-pixels segmentation
 ## Description
 This ROS package contains all the process of getting stereo-vision data. This is processed by a super-pixel algorithm to create plane-based maps.
 
@@ -18,6 +18,8 @@ This new version incorporates a node to only visualize planes on a computer.
 * CUDA 10.0 (Important to be 10.0 not 10.1 or greater).
 
 * ZED SDK v2.8.3. and the ROS Wrapper Pluggin
+
+* MAVROS (Melodic Version)
 
 https://www.stereolabs.com/developers/release/#sdkdownloads_anchor
 

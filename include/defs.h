@@ -50,6 +50,7 @@ Alejandro Aceves-Lopez          ITESM aaceves@itesm.mx
 #include <geometry_msgs/PolygonStamped.h>
 
 
+
 //ROS ROS ROS ROS ROS
 #include <ros/ros.h>
 #include <ros/package.h>
@@ -58,11 +59,13 @@ Alejandro Aceves-Lopez          ITESM aaceves@itesm.mx
 # include "geometry_msgs/Quaternion.h"
 # include "geometry_msgs/Vector3.h"
 # include "geometry_msgs/TransformStamped.h"
+#include "geometry_msgs/Point.h"
+
 #include <sdk/drone_MSG.h>
 #include <sdk/c_msgs.h>
 
-
 using namespace std;
+
 //1st Method
 void create_connection_ref_mat(vector<vector<int>>& con_mat, int k);
 
@@ -143,7 +146,16 @@ void fill_pcl_AGL(
 		vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr>&      allclouds,
 		vector<int>& largestAGLs
 		);
-//8th Method
+//8th Method & overload
+void get_polygons(vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> all_clouds,
+		int largest_clouds,
+		pcl::PointCloud<pcl::PointXYZRGB>::Ptr& res_hull,
+		std::vector<pcl::Vertices>& polygons,
+		Eigen::Affine3f& matAff,
+		float& sum_error,
+		geometry_msgs::Point& pp,
+		int& p_count,
+		bool& foundObstacle);
 void get_polygons(vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> all_clouds,
 		int largest_clouds,
 		pcl::PointCloud<pcl::PointXYZRGB>::Ptr& res_hull,
@@ -151,6 +163,14 @@ void get_polygons(vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> all_clouds,
 		Eigen::Affine3f& matAff,
 		float& sum_error,
 		sdk::c_msgs& pp,
+		int& p_count,
+		bool& foundObstacle);
+void get_polygons(vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> all_clouds,
+		int largest_clouds,
+		pcl::PointCloud<pcl::PointXYZRGB>::Ptr& res_hull,
+		std::vector<pcl::Vertices>& polygons,
+		Eigen::Affine3f& matAff,
+		float& sum_error,
 		int& p_count,
 		bool& foundObstacle);
 //9th Method

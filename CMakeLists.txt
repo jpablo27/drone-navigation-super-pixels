@@ -7,6 +7,9 @@ if(COMMAND cmake_policy)
 	cmake_policy(SET CMP0015 OLD)
 endif(COMMAND cmake_policy)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(catkin REQUIRED COMPONENTS
   cv_bridge
@@ -28,6 +31,8 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(CUDA REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(ZED 2 REQUIRED)
+find_package(PCL 1.2 REQUIRED)
+
 
 add_message_files(
   FILES
@@ -78,7 +83,7 @@ link_directories(${OpenCV_LIBRARY_DIRS})
 link_directories(${CUDA_LIBRARY_DIRS})
 link_directories(${ZED_LIBRARY_DIR})
 
-list(APPEND "-std=c++11 -ftree-vectorize")
+list(APPEND "-ftree-vectorize")
 SOURCE_GROUP(engines FILES ${GSLICR_LIB})
 
 cuda_add_library(gSLICr_lib
@@ -88,7 +93,7 @@ cuda_add_library(gSLICr_lib
 
 target_link_libraries(gSLICr_lib ${CUDA_LIBRARY})
 
-add_definitions(${PCL_DEFINITIONS} -std=c++11 -g -O3)
+add_definitions(${PCL_DEFINITIONS} -O3)
 
 add_executable(drone_node src/main.cpp
 src/sp1_callbacks.cpp
@@ -108,6 +113,29 @@ include/sendHulls.cpp
 include/rrt.cpp
 )
 
+add_executable(map_node src/map_main.cpp
+src/map_cb.cpp
+include/colours.cpp
+include/connections.cpp
+include/coordinates.cpp
+include/fill.cpp
+include/fillpcl.cpp
+include/gpoly.cpp
+include/planex.cpp
+include/adj_mat_mask.cpp
+include/connected_components_listv.cpp
+include/connected_components_listLAB.cpp
+include/connected_components_listDepth.cpp
+include/ar_polygons.cpp
+include/sendHulls.cpp
+include/rrt.cpp
+include/cam_object.cpp 
+include/update_all_polygons.cpp
+include/vis_errors.cpp
+)
+
+add_dependencies(map_node station_map_generate_messages_cpp)
+
 
 target_link_libraries(drone_node
 	gSLICr_lib
@@ -117,4 +145,11 @@ target_link_libraries(drone_node
     ${ZED_LIBRARIES}
 )
 
+target_link_libraries(map_node
+	gSLICr_lib
+	${catkin_LIBRARIES}
+	${OpenCV_LIBRARIES}
+    ${PCL_LIBRARIES}
+    ${ZED_LIBRARIES}
+)
 
