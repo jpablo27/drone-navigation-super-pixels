@@ -134,7 +134,7 @@ include/update_all_polygons.cpp
 include/vis_errors.cpp
 )
 
-add_dependencies(map_node station_map_generate_messages_cpp)
+#add_dependencies(map_node station_map_generate_messages_cpp)
 
 
 target_link_libraries(drone_node
