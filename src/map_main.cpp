@@ -26,7 +26,7 @@ int main(int argc, char ** argv){
 	}
 
 	while (ros::ok()) {
-		//d_n.sp1Loop();
+		d_n.sp1Loop();
 		ros::spinOnce();
 		loop_rate.sleep();
 	}

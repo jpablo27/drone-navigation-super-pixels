@@ -225,11 +225,12 @@ void sp1::depthCB(const sensor_msgs::ImageConstPtr& msg){
   options.min_image_value = 0;
   cv_ptr = cv_bridge::cvtColorForDisplay(cv_bridge::toCvCopy(msg), "", options);
   depth_f = cv_ptr->image;
-
+/*
   if(!depth_f.empty()){
+    cout << "type: " << depth_f.type() << endl;
     cv::imshow("Frame", depth_f);
     cv::waitKey(1);
-  }
+  }*/
       
 }
 
@@ -308,12 +309,12 @@ bool sp1::sp1Loop(void){
 		load_image(frame, in_img); // SP load image method
 	}
 
- cout << "KIKI 1" << endl;
-
+    cv::imshow("Frame", frame);
+    cv::waitKey(1);
   //noseg.write(frame);
 
 
-  //cv::imshow("Frame",frame);
+  cv::imshow("Frame",frame);
 
 	gSLICr_engine->Process_Frame(in_img); // Perform the SP segmentation
 
