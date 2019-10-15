@@ -22,7 +22,8 @@ This new version incorporates a node to only visualize planes on a computer.
 * MAVROS (Melodic Version)
 
 * (optional) You can uso either ORB - SLAM or Odometry provided by ZED SDK.
-** Note: SDK Odometry was tested very recently together with this code.
+
+* * Note: SDK Odometry was tested very recently together with this code.
 
 https://www.stereolabs.com/developers/release/#sdkdownloads_anchor
 

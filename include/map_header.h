@@ -99,7 +99,51 @@ Alejandro Aceves-Lopez          ITESM aaceves@itesm.mx
 #include <signal.h>
 
 
+#include <boost/bind.hpp>
+#include <boost/thread.hpp>
+#include <boost/format.hpp>
+
 using namespace std;
+
+
+
+class ThreadSafeImage
+{
+  boost::mutex mutex_;
+  boost::condition_variable condition_;
+  cv::Mat image_;
+
+public:
+  void set(const cv::Mat& image){
+  boost::unique_lock<boost::mutex> lock(mutex_);
+  image_ = image;
+  condition_.notify_one();
+};
+
+  cv::Mat get(){
+  boost::unique_lock<boost::mutex> lock(mutex_);
+  return image_;
+};
+
+  cv::Mat pop(){
+	cv::Mat image;
+	{
+		boost::unique_lock<boost::mutex> lock(mutex_);
+		while (image_.empty())
+		{
+		condition_.wait(lock);
+		}
+		image = image_;
+		image_.release();
+	}
+	return image;
+  };
+};
+
+
+
+
+
 
 
 class sp1
@@ -118,7 +162,7 @@ public:
 	void pclCB(const boost::shared_ptr<const sensor_msgs::PointCloud2>& msg);
 	boost::shared_ptr<pcl::visualization::PCLVisualizer> rgbVis(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloud);
     void keyboard_cbs(const pcl::visualization::KeyboardEvent &event, void* junk);
-
+	bool pclYa(void);
 
 	///ERRORS
 
@@ -320,7 +364,9 @@ const gSLICr::IntImage* Idx_im;
     bool kdfirts = true;
 	std::vector<geometry_msgs::Point> centroids;
 	geometry_msgs::Point pp;
+	ThreadSafeImage queued_image_;
 };
+
 
 
 #endif

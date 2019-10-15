@@ -20,7 +20,13 @@ int main(int argc, char ** argv){
 	sp1 d_n(argc, argv);
 	ros::Rate loop_rate(20);
 
+	while( !d_n.pclYa() ){
+		ros::spinOnce();
+		loop_rate.sleep();
+	}
+
 	while (ros::ok()) {
+		//d_n.sp1Loop();
 		ros::spinOnce();
 		loop_rate.sleep();
 	}

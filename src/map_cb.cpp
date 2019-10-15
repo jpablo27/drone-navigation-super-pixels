@@ -92,11 +92,11 @@ sp1::sp1(int argc, char** argv): it_(nh_){
 	signal(SIGINT, mySigintHandler);
 
   //Subscriptions
-  leftS_ = it_.subscribe("/zed/left/image_rect_color",1,&sp1::leftCB,this);
-  depthS_= it_.subscribe("/zed/depth/depth_registered",1,&sp1::depthCB,this);
-  cloudS_= nh_.subscribe("/zed/point_cloud/cloud_registered",1, &sp1::pclCB,this);
-  odomS_ = nh_.subscribe("/zed/odom",1,&sp1::odomCB,this);
-   
+  leftS_ = it_.subscribe("/zed/zed_node/left/image_rect_color",1,&sp1::leftCB,this);
+  depthS_= it_.subscribe("/zed/zed_node/depth/depth_registered",1,&sp1::depthCB,this);
+  cloudS_= nh_.subscribe("/zed/zed_node/point_cloud/cloud_registered",1, &sp1::pclCB,this);
+  odomS_ = nh_.subscribe("/zed/zed_node/odom",1,&sp1::odomCB,this);
+  
 
   izQ4=cv::Mat(height, width, CV_32FC1);
   izQ=cv::Mat(height, width, CV_8UC3);
@@ -106,7 +106,7 @@ sp1::sp1(int argc, char** argv): it_(nh_){
   std::cout << "izqtype: " << izQ.type() << '\n';
 
   parcial = cv::Mat(height,width,CV_8UC3);
-  //cv::namedWindow("Frame",cv::WINDOW_AUTOSIZE);
+  cv::namedWindow("Frame",cv::WINDOW_AUTOSIZE);
   //cv::namedWindow("semi",cv::WINDOW_AUTOSIZE);
   //cv::namedWindow("VIEW", cv::WINDOW_AUTOSIZE);
   //cv::namedWindow("VIEW2", cv::WINDOW_AUTOSIZE);
@@ -144,7 +144,7 @@ sp1::sp1(int argc, char** argv): it_(nh_){
   mat3.setIdentity();
 
   
-  int codec = cv::VideoWriter::fourcc('M', 'J', 'P', 'G');  // select desired codec (must be available at runtime)
+  //int codec = cv::VideoWriter::fourcc('M', 'J', 'P', 'G');  // select desired codec (must be available at runtime)
   double fps = 15.0;                          // framerate of the created video stream
   //string filename = "/home/pablo/vid/live.avi"; 
   //string filenam2 = "/home/pablo/vid/noseg.avi";          // name of the output video fil
@@ -189,6 +189,9 @@ sp1::sp1(int argc, char** argv): it_(nh_){
     coltest = cv::Mat(1,1,CV_8UC3);
     P_map = pcl::PointCloud<pcl::PointXYZ>::Ptr (new pcl::PointCloud<pcl::PointXYZ>);
 
+      std::cout <<"/////////////////////////////////////////////////////////////////////////" << std::endl;
+
+
 }
 
 sp1::~sp1(){
@@ -214,9 +217,20 @@ void sp1::leftCB(const sensor_msgs::ImageConstPtr& msg){
 
 void sp1::depthCB(const sensor_msgs::ImageConstPtr& msg){
   DepthMSG_ = true;
-  cv_bridge::CvImagePtr cv_ptr;
-  cv_ptr = cv_bridge::toCvCopy(msg);
-  cv::cvtColor(cv_ptr->image,depth_f, CV_RGBA2RGB);
+
+  cv_bridge::CvImageConstPtr cv_ptr;
+  cv_bridge::CvtColorForDisplayOptions options;
+  options.do_dynamic_scaling = false;
+  options.max_image_value = 10; 
+  options.min_image_value = 0;
+  cv_ptr = cv_bridge::cvtColorForDisplay(cv_bridge::toCvCopy(msg), "", options);
+  depth_f = cv_ptr->image;
+
+  if(!depth_f.empty()){
+    cv::imshow("Frame", depth_f);
+    cv::waitKey(1);
+  }
+      
 }
 
 void sp1::pclCB(const boost::shared_ptr<const sensor_msgs::PointCloud2>& msg){
@@ -227,6 +241,10 @@ void sp1::pclCB(const boost::shared_ptr<const sensor_msgs::PointCloud2>& msg){
   pcl_conversions::toPCL(*msg,pcl_pc2);
 	pcl::fromPCLPointCloud2(pcl_pc2,*nube);
 
+}
+
+bool sp1::pclYa(void){
+  return PclMSG_;
 }
 
 void sp1::odomCB(const nav_msgs::Odometry& data)
@@ -266,9 +284,12 @@ boost::shared_ptr<pcl::visualization::PCLVisualizer> sp1::rgbVis(pcl::PointCloud
 
 //MAIN LOOP
 bool sp1::sp1Loop(void){
+ cout << "KIKI 0//////////////////////////////////////////////////////" << endl;
 
 
   cvtColor(izQ,izQLab, CV_BGR2Lab); // Transform the 3 channel image into Lab color-space
+
+   cout << "KIKI 0_1" << endl;
 
 //CHANGE MODE IN HEADER FILE sp1_header.h
 	if (modo == 1) {
@@ -287,6 +308,7 @@ bool sp1::sp1Loop(void){
 		load_image(frame, in_img); // SP load image method
 	}
 
+ cout << "KIKI 1" << endl;
 
   //noseg.write(frame);
 
