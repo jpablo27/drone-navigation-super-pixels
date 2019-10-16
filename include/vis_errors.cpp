@@ -11,9 +11,8 @@
 #include <pcl/common/common_headers.h>
 #include <pcl/console/parse.h>
 #include <pcl/visualization/cloud_viewer.h>
-#include <station_map/c_msgs.h>
 
-
+/*
 void visualize_errors (boost::shared_ptr<pcl::visualization::PCLVisualizer>& viewer,
 	std::vector<float>& errors,
     std::vector<station_map::c_msgs>& centroids,
@@ -37,4 +36,4 @@ void visualize_errors (boost::shared_ptr<pcl::visualization::PCLVisualizer>& vie
 		viewer->addText3D(e_value, centroids[i], 0.15, 1.0, 0.0, 0.0,name,0);
 	}
 
-}
+}*/

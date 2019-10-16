@@ -41,10 +41,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <station_map/drone_MSG.h> //Contains the Custom message
-#include <station_map/drone_ver.h>
-#include <station_map/e_msgs.h>
-#include <station_map/c_msgs.h>
+
 
 //GEN 
 
