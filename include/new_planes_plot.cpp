@@ -44,6 +44,8 @@ void new_q_planes(pcl::PointXYZ& searchPoint,
     int m_s;
     float e_prom;
 
+    char e_val[20];
+
     for(int i=0; i<centroids.size(); i++){
         e_prom = errors[i]/num_points[i];
         if(e_prom < 0.02){
@@ -63,7 +65,9 @@ void new_q_planes(pcl::PointXYZ& searchPoint,
 
             }else{
                 sprintf(name_ch,"cloud%d",map_c_counter);
-                viewer->addPointCloud<pcl::PointXYZRGB>(all_hulls[i],name_ch,0);
+                //viewer->addPointCloud<pcl::PointXYZRGB>(all_hulls[i],name_ch,0);
+       			viewer->addPolygonMesh<pcl::PointXYZRGB>(all_hulls[i],all_polygons[i],name_ch);
+
                 std::cout << name_ch << std::endl;
 
                                     //UPDATE ALL 
@@ -76,13 +80,20 @@ void new_q_planes(pcl::PointXYZ& searchPoint,
                 r_ply = float(coltest.at<cv::Vec3b>(0)[2])/255;
                 g_ply = float(coltest.at<cv::Vec3b>(0)[1])/255;
                 b_ply = float(coltest.at<cv::Vec3b>(0)[0])/255;
-                viewer->updatePointCloud<pcl::PointXYZRGB>(all_hulls[i], name_ch);
-                viewer->updatePolygonMesh<pcl::PointXYZRGB>(all_hulls[i],all_polygons[i],name_ch);
+                /*viewer->updatePointCloud<pcl::PointXYZRGB>(all_hulls[i], name_ch);
+                viewer->updatePolygonMesh<pcl::PointXYZRGB>(all_hulls[i],all_polygons[i],name_ch);*/
                 viewer->setPointCloudRenderingProperties ( pcl::visualization::PCL_VISUALIZER_COLOR, r_ply,g_ply,b_ply,name_ch );
+                
                 // NO EXISTE AÚN(agregar al mapa)
                 P_map->points.push_back(searchPoint);
                 map_c_counter=P_map->points.size();
                 std::cout << " NUEVO " << std::endl;
+                //VisError
+                sprintf(e_val,"e = %3.4f[cm]",e_prom);
+                strcat(name_ch,"txt");
+                viewer->addText3D(e_val, centroids[i], 0.15, 1.0, 0.0, 0.0,name_ch,0);
+
+                //VisError
             }
         }else{
             std::cout << "ERROR: " << e_prom << std::endl;

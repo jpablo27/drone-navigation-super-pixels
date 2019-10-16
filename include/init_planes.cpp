@@ -96,6 +96,8 @@ void init_planes (pcl::PointXYZ& searchPoint,
 	float e_prom;
 	int m_s;
 
+	char e_val[20];
+
 	for(int i=0; i<centroids.size();i++){
 		e_prom = errors[i]/num_points[i];
 		if(e_prom < 0.02){
@@ -104,14 +106,15 @@ void init_planes (pcl::PointXYZ& searchPoint,
 			searchPoint.y=ceil(centroids[i].y/resolution)*resolution;
 			searchPoint.z=ceil(centroids[i].z/resolution)*resolution;
 
-			//ACTUALLY MAP THE INIT PLANES
+			// THE INIT PLANES
 			m_s = P_map->points.size();
 			sprintf(name_ch,"cloud%d",m_s);
-			viewer->addPointCloud<pcl::PointXYZRGB>(all_hulls[i],name_ch,0);
+			//viewer->addPointCloud<pcl::PointXYZRGB>(all_hulls[i],name_ch,0);
 			P_map->points.push_back(searchPoint);//HERE IS ADDED
 
+			viewer->addPolygonMesh<pcl::PointXYZRGB>(all_hulls[i],all_polygons[i],name_ch);
 
-			std::cout << name_ch << std::endl;
+			//std::cout << name_ch << std::endl;
 
 			//UPDATE ALL
 			coltest.at<cv::Vec3b>(0)[2]=avg_r[largest_clouds[i]];
@@ -122,9 +125,17 @@ void init_planes (pcl::PointXYZ& searchPoint,
 			r_ply = float(coltest.at<cv::Vec3b>(0)[2])/255;
 			g_ply = float(coltest.at<cv::Vec3b>(0)[1])/255;
 			b_ply = float(coltest.at<cv::Vec3b>(0)[0])/255;
-			viewer->updatePointCloud<pcl::PointXYZRGB>(all_hulls[i], name_ch);
-			viewer->updatePolygonMesh<pcl::PointXYZRGB>(all_hulls[i],all_polygons[i],name_ch);
+			/*viewer->updatePointCloud<pcl::PointXYZRGB>(all_hulls[i], name_ch);
+			viewer->updatePolygonMesh<pcl::PointXYZRGB>(all_hulls[i],all_polygons[i],name_ch);*/
 			viewer->setPointCloudRenderingProperties ( pcl::visualization::PCL_VISUALIZER_COLOR, r_ply,g_ply,b_ply,name_ch );
+
+						
+			//VisError
+			sprintf(e_val,"e = %3.4f[cm]",e_prom);
+			strcat(name_ch,"txt");
+			viewer->addText3D(e_val, centroids[i], 0.15, 1.0, 0.0, 0.0,name_ch,0);
+
+			//VisError
 		}
 	}
 }

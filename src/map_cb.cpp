@@ -221,13 +221,15 @@ void sp1::depthCB(const sensor_msgs::ImageConstPtr& msg){
   cv_bridge::CvImageConstPtr cv_ptr;
   cv_bridge::CvtColorForDisplayOptions options;
   options.do_dynamic_scaling = false;
-  options.max_image_value = 10; 
+  options.max_image_value =3; 
   options.min_image_value = 0;
   cv_ptr = cv_bridge::cvtColorForDisplay(cv_bridge::toCvCopy(msg), "", options);
   depth_f = cv_ptr->image;
-/*
-  if(!depth_f.empty()){
-    cout << "type: " << depth_f.type() << endl;
+
+  cv::normalize(depth_f,depth_f,0,255,cv::NORM_MINMAX);
+
+  /*if(!depth_f.empty()){
+    //cout << "type: " << depth_f.type() << endl;
     cv::imshow("Frame", depth_f);
     cv::waitKey(1);
   }*/
@@ -285,12 +287,10 @@ boost::shared_ptr<pcl::visualization::PCLVisualizer> sp1::rgbVis(pcl::PointCloud
 
 //MAIN LOOP
 bool sp1::sp1Loop(void){
- cout << "KIKI 0//////////////////////////////////////////////////////" << endl;
 
 
   cvtColor(izQ,izQLab, CV_BGR2Lab); // Transform the 3 channel image into Lab color-space
 
-   cout << "KIKI 0_1" << endl;
 
 //CHANGE MODE IN HEADER FILE sp1_header.h
 	if (modo == 1) {
@@ -309,12 +309,12 @@ bool sp1::sp1Loop(void){
 		load_image(frame, in_img); // SP load image method
 	}
 
-    cv::imshow("Frame", frame);
+  cv::imshow("Frame", frame);
     cv::waitKey(1);
   //noseg.write(frame);
 
 
-  cv::imshow("Frame",frame);
+  //cv::imshow("Frame",frame);
 
 	gSLICr_engine->Process_Frame(in_img); // Perform the SP segmentation
 
