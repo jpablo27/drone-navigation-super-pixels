@@ -22,9 +22,9 @@ This new version incorporates a node to only visualize planes on a computer.
 * MAVROS (Melodic Version)
 
 * PCL 1.8
- * Eigen
- * VTK
- * Boost C++
+  * Eigen
+  * VTK
+  * Boost C++
 
 * gSLICr (Already inside this package) [1]
 
