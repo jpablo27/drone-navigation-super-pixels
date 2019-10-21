@@ -34,9 +34,7 @@ This new version incorporates a node to only visualize planes on a computer.
 
 https://www.stereolabs.com/developers/release/#sdkdownloads_anchor
 
-## Instructions
-
-TODO
+## Building Instructions
 
 ```console
 $ cd ~/catkin_ws/src
@@ -48,6 +46,17 @@ Note: You might have to install other dependecies such as pcl-msgs, ros-pcl etc.
 ```console
 $ sudo apt-get install ros-melodic-<missing package name>
 ```
+## Running Instructions
+### If you have a Pixhawk module, you can run this node
+```console
+$ roslaunch sdk sdk.launch
+```
+
+### If you just want to run the mapping harwdare, you can run this node
+```console
+$ roslaunch sdk map.launch
+```
+
 ## REFERENCES
 
 [1] C. Yuheng, V. Prisacariu, and I. Reid.  "gSLICr: SLIC superpixels at over 250Hz", ArXiv e-prints. 1509.04232 2015 sep
