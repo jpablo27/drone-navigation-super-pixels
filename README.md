@@ -28,9 +28,13 @@ This new version incorporates a node to only visualize planes on a computer.
 
 * gSLICr (Already inside this package) [1]
 
+* (optional) A drone with Pixhawk flight controller
+
+* (optional) Jetson SDK
+
 * (optional) You can uso either ORB - SLAM or Odometry provided by ZED SDK.
 
-* * Note: SDK Odometry was tested very recently together with this code.
+ * Note: SDK Odometry was tested very recently together with this code.
 
 https://www.stereolabs.com/developers/release/#sdkdownloads_anchor
 
